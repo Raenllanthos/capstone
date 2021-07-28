@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Heroes from "./components/heroes"
 import './App.css';
 

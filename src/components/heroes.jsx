@@ -5,7 +5,7 @@ import Pagination from "./common/pagination";
 import { getHeroes } from "../services/fakeHeroDatabase";
 import { getHeroType } from "../services/fakeTypeDatabase";
 import { paginate } from "../utils/paginate";
-import _ from "lodash"
+import _ from "lodash";
 
 class Heroes extends Component {
     state = { 
@@ -13,10 +13,11 @@ class Heroes extends Component {
         herotypes: [],
         currentPage: 1,
         pageSize: 4,
+        sortColumn: {path: "title", order: "asc"}
     };
 
     componentDidMount() {
-        const herotypes = [{type: "All Heroes"}, ...getHeroType()]
+        const herotypes = [{_id: "", type: "All Heroes"}, ...getHeroType()]
         this.setState({ heroes: getHeroes(), herotypes });
     }
 
@@ -33,9 +34,18 @@ class Heroes extends Component {
         this.setState({ selectedHeroType: herotype, currentPage: 1 });
     }
 
+    handleSort = sortColumn => {
+        this.setState({ sortColumn })
+    }
+
     render() { 
         const { length: count } = this.state.heroes;
-        const {pageSize, currentPage, selectedHeroType, heroes: allHeroes } = this.state;
+        const {
+            pageSize, 
+            currentPage, 
+            selectedHeroType, 
+            heroes: allHeroes,
+            sortColumn, } = this.state;
         if (count === 0)
             return <h5>There are no heroes/villains in the database.</h5>
 
@@ -44,7 +54,9 @@ class Heroes extends Component {
         ? allHeroes.filter(h => h.herotype._id === selectedHeroType._id) 
         : allHeroes;
 
-        const heroes = paginate(filtered, currentPage, pageSize);
+        const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order])
+
+        const heroes = paginate(sorted, currentPage, pageSize);
 
         return (
             <div>
@@ -65,6 +77,7 @@ class Heroes extends Component {
                     </div>
                         <HeroesCard
                         heroes={heroes}
+                        sortColumn={sortColumn}
                         onDelete={this.handleDelete}
                         onSort={this.handleSort}
                         />

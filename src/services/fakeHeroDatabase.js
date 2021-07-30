@@ -4,7 +4,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd471815",
     name: "Toilet Man",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471814", type: "Villain" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471814", name: "Villain" },
     power: "Cleans Toilets",
     comicsAppearedIn: 6,
     description: "Bald-headed like the Magic Eraser guy",
@@ -14,7 +14,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd471816",
     name: "Alaska Man",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471818", type: "Hero" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471818", name: "Hero" },
     power: "Helps Tourists in Alaska",
     comicsAppearedIn: 100,
     description: "Tall, maybe like 6'2. Long flowing hair. Likes walks on the beach",
@@ -23,7 +23,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd471817",
     name: "Fizz",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471818", type: "Hero" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471818", name: "Hero" },
     power: "Instantly learns anything, then after he's done, immediately forgets it.",
     comicsAppearedIn: 8,
     description: "A big fish that has 2 legs instead of a fin. Has a trident. Not to be confused with Aquaman or King Triton from 'The Little Mermaid'.",
@@ -32,7 +32,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd471819",
     name: "Tom",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471814", type: "Villain" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471814", name: "Villain" },
     power: "Chases Jerry, but always fails",
     comicsAppearedIn: 7,
     description: "Tomcat, probably like 4 feet tall on hind legs",
@@ -41,7 +41,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd47181a",
     name: "the Noodler",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471814", type: "Villain" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471814", name: "Villain" },
     power: "Noodle",
     comicsAppearedIn: 7,
     description: "Has dreadlocks. Whips up a mean ramen platter.",
@@ -50,7 +50,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd47181b",
     name: "The Egg ",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471818", type: "Hero" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471818", name: "Hero" },
     power: "Egg",
     comicsAppearedIn: 7,
     description: "Egg",
@@ -59,7 +59,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd47181e",
     name: "Rad Chad",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471814", type: "Villain" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471814", name: "Villain" },
     power: "Radioactive Chadioactive",
     comicsAppearedIn: 7,
     description: "Hype man. Bad at it",
@@ -68,7 +68,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd47181f",
     name: "Bikeman",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471818", type: "Hero" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471818", name: "Hero" },
     power: "Turns into a bicycle.",
     comicsAppearedIn: 4,
     description: "Mountain, 24-inch wheels. Really fast.",
@@ -77,7 +77,7 @@ const heroes = [
   {
     _id: "5b21ca3eeb7f6fbccd471821",
     name: "Lil V",
-    herotype: { _id: "5b21ca3eeb7f6fbccd471814", type: "Villain" },
+    heroType: { _id: "5b21ca3eeb7f6fbccd471814", name: "Villain" },
     power: "Vendetta",
     comicsAppearedIn: 7,
     description: "5'10, wicked nice muscles",
@@ -96,12 +96,14 @@ export function getHero(id) {
 export function saveHero(hero) {
   let heroInDb = heroes.find(h => h._id === hero._id) || {};
   heroInDb.name = hero.name;
-  heroInDb.herotype = heroAPI.herotypes.find(h => h._id === hero.herotypeId);
-  heroInDb.numberInStock = hero.numberInStock;
-  heroInDb.dailyRentalRate = hero.dailyRentalRate;
+  heroInDb.heroType = heroAPI.heroTypes.find(h => h._id === hero.heroTypeId);
+  heroInDb.power = hero.power;
+  heroInDb.comicsAppearedIn = hero.comicsAppearedIn;
+  heroInDb.description = hero.description;
+  heroInDb.backStory = hero.backStory;
 
   if (!heroInDb._id) {
-    heroInDb._id = Date.now();
+    heroInDb._id = Date.now().toString();
     heroes.push(heroInDb);
   }
 
